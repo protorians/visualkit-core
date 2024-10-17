@@ -1,6 +1,7 @@
 import {IPalette} from "./palette";
 import {ITone} from "./tone";
 import {IFeatures} from "./feature";
+import {IFont} from "./font";
 
 /**
  * Theme Settings
@@ -36,11 +37,11 @@ export type IThemeConfig = {
    */
   properties?: IFeatures;
 
-  // /**
-  //  * IConfigKit.font
-  //  * @description Font settings
-  //  */
-  // font?: IFont;
+  /**
+   * IConfigKit.font
+   * @description Font settings
+   */
+  font?: IFont;
 
 };
 

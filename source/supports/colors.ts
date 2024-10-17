@@ -43,7 +43,7 @@ export class ColorKit {
     for (let opacity = 1; opacity <= 9; opacity++) {
       payload[
         `${key}-alpha-${opacity}` as `${`${string}`}-${IColorAlphas}`
-        ] = this.rgba(color, opacity);
+        ] = this.rgba(color, opacity / 10);
     }
 
     // Intensity
@@ -64,7 +64,7 @@ export class ColorKit {
       for (let opacity = 1; opacity <= 9; opacity++) {
         payload[
           `${hotKey}-alpha-${opacity}` as `${`${string}`}-${IColorIntensities}-${IColorAlphas}`
-          ] = this.rgba(hot, opacity);
+          ] = this.rgba(hot, opacity / 10);
       }
 
     }

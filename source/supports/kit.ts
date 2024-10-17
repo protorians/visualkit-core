@@ -4,7 +4,15 @@ import {
   type IAttributesScope,
   decamelize
 } from "@protorians/widgets";
-import type {IAbilitiesKit, IKit, IKitAbility, IKitChildren, IKitEntries, KitSchematic} from "../types"
+import type {
+  IAbilitiesKit,
+  IKit,
+  IKitAbility,
+  IKitChildren,
+  IKitAbilityCallback,
+  IKitEntries,
+  KitSchematic
+} from "../types"
 import {type IProperty, type IPropertyScheme, Property} from "@protorians/core";
 
 
@@ -105,18 +113,29 @@ export class AbilitiesKit<P extends IPropertyScheme> implements IAbilitiesKit<P>
   initialize(): void {
   }
 
-  bind<T extends keyof P>(index: T, widget: IKitAbility): this {
-
-    this.property.setter(({prop, value}) => {
-
-      if (prop in this.props && prop === index) {
-        const ability = (this.constructor as typeof AbilitiesKit).abilities[prop] || undefined
-        if (typeof ability === 'function') ability({value, widget,})
-      }
+  bind<K extends keyof P>(index: K, widget: IKitAbility): this {
+    const abilities = (this.constructor as typeof AbilitiesKit).abilities as IKitChildren<P>;
+    this.property.effect(index, ({prop, value}) => {
+      const ability = (abilities[prop] as IKitAbilityCallback<P[K], P>) || undefined
+      if (typeof ability === 'function') ability({
+        value,
+        widget,
+        initial: this.props[index],
+        old: this.property.get(prop) as P[K],
+        props: this.property.export() as P,
+      })
       return value;
     })
-
     return this;
+  }
+
+  set<K extends keyof P>(index: K, value: P[K]): this {
+    this.property.state[index] = value;
+    return this;
+  }
+
+  get<K extends keyof P>(index: K): P[K] {
+    return this.property.state[index];
   }
 
 }
@@ -124,7 +143,6 @@ export class AbilitiesKit<P extends IPropertyScheme> implements IAbilitiesKit<P>
 
 export function Ability() {
   return function (target: any, method: string) {
-    console.log('Child Decoration', target, method);
     target.abilities[method] = target[method];
   }
 }

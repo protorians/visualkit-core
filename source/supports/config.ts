@@ -4,6 +4,7 @@ import {baseRulesKit} from "./config-rules";
 import {PaletteKit} from "./palette";
 import {ToneKit} from "./tone";
 import {ThemeColorKit, ThemePropertyKit} from "./theme";
+import {FontKit} from "./font";
 
 export class ConfigKit {
 
@@ -62,7 +63,10 @@ export class ConfigKit {
     /**
      * Create theme font features
      */
-    // console.warn('[FontKit]', schematic.theme.font)
+    if (schematic.theme.font) FontKit.processing([{
+      ...schematic.theme.font,
+      id: schematic.theme.name,
+    }])
 
     return schematic;
   }

@@ -1,5 +1,4 @@
-import {IFeatureKit, IFeatures, IFeaturesComputed} from "../types/feature";
-import {IColorSlots} from "../types";
+import {IFeatureKit, IFeatures, IFeaturesComputed, IColorSlots} from "../types";
 import {ColorKit} from "./colors";
 import {StyleSheetKit} from "./stylesheet";
 import {FeatureBatch} from "../constants";
@@ -10,6 +9,7 @@ export class FeatureKit<T extends IFeatures> implements IFeatureKit {
   protected name: string = 'feature';
   protected batch: FeatureBatch = FeatureBatch.Property;
   protected identifier: string = 'feature';
+  protected prefix: string | undefined = undefined;
   protected _computed: IFeaturesComputed;
 
   get computed(): IFeaturesComputed {
@@ -62,7 +62,7 @@ export class FeatureKit<T extends IFeatures> implements IFeatureKit {
         `feature:${this.identifier}.${this.name}`,
         `*[${this.identifier}:${this.name}="${this.sheet.id}"]`,
         Object.entries(this._computed).filter(([key, value]) => key && key !== 'id' && value),
-        `--${this.batch}-`,
+        `--${this.prefix || this.batch}-`,
         `${this.batch}`
       )
       : undefined;

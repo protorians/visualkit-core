@@ -17,7 +17,7 @@ export interface IFeatureKit {
 }
 
 export type IFeatures = {
-  [K: string]: string;
+  [K: string]: string | number;
 }
 
 export type IFeaturesSlots<T extends IFeatures> = Omit<T, 'id'>

@@ -1,6 +1,6 @@
 import {IPalette} from "../types";
 
-export function paletteKitDefault(): IPalette {
+export function defaultPaletteKit(): IPalette {
   return {
     id: 'default',
     one: '#8c2f39',
@@ -11,7 +11,7 @@ export function paletteKitDefault(): IPalette {
   }
 }
 
-export function paletteKitGobBlue(): IPalette {
+export function gobBluePaletteKit(): IPalette {
   return {
     id: 'god.blue',
     one: '#0050a1',
@@ -22,7 +22,7 @@ export function paletteKitGobBlue(): IPalette {
   }
 }
 
-export function paletteKitPurple(): IPalette {
+export function purplePaletteKit(): IPalette {
   return {
     id: 'purple',
     one: '#4133e0',
@@ -33,7 +33,7 @@ export function paletteKitPurple(): IPalette {
   }
 }
 
-export function paletteKitOrangeDeep(): IPalette {
+export function orangeDeepPaletteKit(): IPalette {
   return {
     id: 'orange.deep',
     one: '#f9563f',
@@ -44,7 +44,7 @@ export function paletteKitOrangeDeep(): IPalette {
   }
 }
 
-export function paletteKitOrangeGladDeep(): IPalette {
+export function orangeGladDeepPaletteKit(): IPalette {
   return {
     id: 'orange.glad',
     one: '#f9563f',
@@ -55,7 +55,7 @@ export function paletteKitOrangeGladDeep(): IPalette {
   }
 }
 
-export function paletteKitSenseRed(): IPalette {
+export function senseRedPaletteKit(): IPalette {
   return {
     id: 'sense.red',
     one: '#bf0603',
@@ -66,7 +66,7 @@ export function paletteKitSenseRed(): IPalette {
   }
 }
 
-export function paletteKitSenseBlue(): IPalette {
+export function senseBluePaletteKit(): IPalette {
   return {
     id: 'sense.blue',
     one: '#182825',

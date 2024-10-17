@@ -6,6 +6,8 @@ import {FeatureBatch} from "../constants";
 
 export class ThemeKit {
 
+  static layers: string[] = ['theme', 'feature', 'property', 'color', 'kit', 'visualkit']
+
   static get cacheKey(): string {
     return '@visual.kit.theme.settings'
   }
@@ -51,9 +53,25 @@ export class ThemeKit {
 
   static run() {
     return this
+      .initializeLayers()
       .switch(this.settings.name)
       .palette(ConfigKit.schematic.theme.palettes.length ? ConfigKit.schematic.theme.palettes[0].id : 'default')
       .tone(ConfigKit.schematic.theme.tones.length ? ConfigKit.schematic.theme.tones[0].id : 'default')
+  }
+
+  static initializeLayers(layers?: string[]) {
+    const element = document.querySelector(`[visualkit\\:layers="integrity"]`) || document.createElement('style');
+
+    element.setAttribute('type', 'text/css');
+    element.setAttribute('visualkit:layers', 'integrity');
+    element.innerHTML = `@layer ${(layers || this.layers).join(', ')};`;
+
+    if (document.head.firstChild)
+      document.head.insertBefore(element, document.head.firstChild);
+    else
+      document.head.appendChild(element);
+
+    return this;
   }
 
 }
@@ -69,6 +87,7 @@ export class ThemeColorKit extends FeatureKit<IFeatures> implements IToneKit {
 export class ThemePropertyKit extends FeatureKit<IFeatures> implements IToneKit {
   protected name: string = 'name';
   protected identifier: string = 'theme';
+  protected prefix: string = 'theme';
   protected batch: FeatureBatch = FeatureBatch.Property;
   protected _computed: IFeatures | undefined;
 }

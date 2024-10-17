@@ -1,6 +1,6 @@
 import {ITone} from "../types";
 
-export function toneKitLight(): ITone {
+export function lightToneKit(): ITone {
   return {
     id: 'light',
     text: '#000000',
@@ -14,7 +14,7 @@ export function toneKitLight(): ITone {
   }
 }
 
-export function toneKitDark(): ITone {
+export function darkToneKit(): ITone {
   return {
     id: 'dark',
     text: '#ffffff',

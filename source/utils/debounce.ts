@@ -1,5 +1,5 @@
 function debounce(func: Function, wait: number = 200) {
-    let timeout: NodeJS.Timeout;
+    let timeout: number | undefined = undefined;
     return function (...args: any[]) {
         clearTimeout(timeout);
         // @ts-ignore

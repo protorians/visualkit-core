@@ -41,17 +41,20 @@ export interface IKit extends IWidget<IAttributes, HTMLElement> {
 
 }
 
-export type IKitAbilityPayload<P> = {
+export type IKitAbilityPayload<P, Props extends IPropertyScheme> = {
   value: P;
+  initial: P;
+  old: P;
   widget: IWidget<any, any>;
+  props: Props;
 }
 
 export type IKitAbility = IWidget<any, any>;
 
-export type IKitAbilityCallback<P> = (payload: IKitAbilityPayload<P>) => void;
+export type IKitAbilityCallback<P, Props extends IPropertyScheme> = (payload: IKitAbilityPayload<P, Props>) => void;
 
 export type IKitChildren<P extends IPropertyScheme> = {
-  [K in keyof P]: IKitAbilityCallback<P[keyof P]>
+  [K in keyof P]: IKitAbilityCallback<P[K], P>
 }
 
 
@@ -65,4 +68,8 @@ export interface IAbilitiesKit<P extends IPropertyScheme> {
   initialize(): void;
 
   bind(index: keyof P, widgetConstructor: IKitAbility): this;
+
+  set<K extends keyof P>(index: K, value: P[K]): this;
+
+  get<K extends keyof P>(index: K): P[K];
 }
