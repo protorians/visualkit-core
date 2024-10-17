@@ -1,0 +1,51 @@
+@layer visualkit {
+
+  /// Grid
+  %grid {
+    display: grid;
+  }
+
+  /// Flex
+  %flex {
+    display: flex;
+  }
+
+  %flex-direction {
+    @extend %flex;
+    flex-direction: var(--flex-direction, row);
+  }
+
+  %flex-wrap {
+    @extend %flex;
+    flex-wrap: var(--flex-wrap, unset);
+  }
+
+  %flex-flow {
+    @extend %flex;
+    flex-flow: var(--flex-flow, unset);
+  }
+
+
+  /// Stack
+  %justify-content {
+    justify-content: var(--justify-content, unset);
+  }
+
+  %justify-items {
+    justify-items: var(--justify-items, unset);
+  }
+
+  %align-items {
+    align-items: var(--align-items, unset);
+  }
+
+  %align-content {
+    align-content: var(--align-content, unset);
+  }
+
+  /// Opacity
+  %opacity {
+    opacity: var(--opacity, unset);
+  }
+
+}

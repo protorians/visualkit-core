@@ -1,0 +1,367 @@
+@use "sass:map";
+
+/// Define Kit
+/// @param {String} $name - Kit name
+@mixin set($name) {
+  .kit\:#{ $name } {
+    @content;
+  }
+}
+
+/// Define Kit
+/// @param {String} $name - Kit name
+@mixin not-set($name) {
+  :not(.kit\:#{ $name }) {
+    @content;
+  }
+}
+
+/// Define Kit Combo
+/// @param {String} $name - Kit name
+@mixin combo($name) {
+  &.kit\:#{ $name } {
+    @content;
+  }
+}
+
+/// Define Kit Combo
+/// @param {String} $name - Kit name
+@mixin not-combo($name) {
+  &:not(.kit\:#{ $name }) {
+    @content;
+  }
+}
+
+/// Extends from Kit:Child
+/// @param {String} $name - Kit name
+@mixin extend($name) {
+  @extend .kit\:#{ $name };
+}
+
+/// Extends from Kit:Child
+/// @param {String} $name - Kit name
+@mixin extend-optional($name) {
+  @extend .kit\:#{ $name } !optional;
+}
+
+/// Extends from Kit:Child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin extends($name, $child) {
+  @extend .#{ $name }\:#{ $child };
+}
+
+/// Extends from Kit:Child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin extends-optional($name, $child) {
+  @extend .#{ $name }\:#{ $child } !optional;
+}
+
+/// Define Kit child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin child($name, $child) {
+  .#{ $name }\:#{ $child } {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin not-child($name, $child) {
+  :not(.#{ $name }\:#{ $child }) {
+    @content;
+  }
+}
+
+/// Define Kit direct child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin legacy($name, $child) {
+  & > *.#{ $name }\:#{ $child } {
+    @content;
+  }
+}
+
+/// Define Kit direct child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin not-legacy($name, $child) {
+  & > *:not(.#{ $name }\:#{ $child }) {
+    @content;
+  }
+}
+
+/// Define Kit direct child
+/// @param {String} $name - Kit name
+@mixin in-legacy($name) {
+  & > .in\:#{$name} {
+    @content;
+  }
+}
+
+/// Define Kit direct child
+/// @param {String} $name - Kit name
+@mixin not-in-legacy($name) {
+  & > :not(.in\:#{$name}) {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin variant($name, $child) {
+  &.#{ $name }\:#{ $child } {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin not-variant($name, $child) {
+  &:not(.#{ $name }\:#{ $child }) {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $ns - Kit name
+/// @param {String} $kit - Child name
+@mixin namespace($ns, $kit) {
+  .#{ $ns }\:\:#{ $kit } {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $ns - Kit name
+/// @param {String} $kit - Child name
+@mixin not-namespace($ns, $kit) {
+  :not(.#{ $ns }\:\:#{ $kit }) {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $ns - Kit name
+/// @param {String} $kit - Child name
+@mixin namespace-variant($ns, $kit) {
+  &.#{ $ns }\:\:#{ $kit } {
+    @content;
+  }
+}
+
+/// Define Kit child
+/// @param {String} $ns - Kit name
+/// @param {String} $kit - Child name
+@mixin not-namespace-variant($ns, $kit) {
+  &:not(.#{ $ns }\:\:#{ $kit }) {
+    @content;
+  }
+}
+
+/// If kit is used
+/// @param {String} $name - Kit name
+@mixin used($name) {
+  [class^="#{ $name }:"],
+  [class*=" #{ $name }:"] {
+    @content;
+  }
+}
+
+
+/// If kit is used
+/// @param {String} $name - Kit name
+@mixin used-tag($tag, $name) {
+  #{$tag}[class^="#{ $name }:"],
+  #{$tag}[class*=" #{ $name }:"] {
+    @content;
+  }
+}
+
+/// If kit is used
+/// @param {String} $name - Kit name
+@mixin not-used($name) {
+  :not([class^="#{ $name }:"]),
+  :not([class*=" #{ $name }:"]) {
+    @content;
+  }
+}
+
+/// If kit is used
+/// @param {String} $name - Kit name
+@mixin used-variant($name) {
+  &[class^="#{ $name }:"],
+  &[class*=" #{ $name }:"] {
+    @content;
+  }
+}
+
+/// If kit is used
+/// @param {String} $name - Kit name
+@mixin not-used-variant($name) {
+  &:not([class^="#{ $name }:"]),
+  &:not([class*=" #{ $name }:"]) {
+    @content;
+  }
+}
+
+/// Kit child declaration contains
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin contains($name, $child) {
+  [class~="#{ $name }:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration contains
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin contains-variant($name, $child) {
+  &[class~="#{ $name }:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration sensitive
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin sensitive($name, $child) {
+  [class|="#{ $name }:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration sensitive
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin sensitive-variant($name, $child) {
+  &[class|="#{ $name }:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration start with
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin start-with($name, $child) {
+  [class^="#{ $name }:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration start with
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin start-with-variant($name, $child) {
+  &[class^="#{ $name }:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration end with
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin end-with($name, $child) {
+  [class$="#{ $name }\:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration end with
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin end-with-variant($name, $child) {
+  &[class$="#{ $name }\:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration match with element class name
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin match($name, $child) {
+  [class*="#{ $name }\:#{ $child }"] {
+    @content;
+  }
+}
+
+/// Kit child declaration match with element class name
+/// @param {String} $name - Kit name
+/// @param {String} $child - Child name
+@mixin match-variant($name, $child) {
+  &[class*="#{ $name }\:#{ $child }"] {
+    @content;
+  }
+}
+
+
+/// Define top, right, bottom, left, vertical and horizontal variants of property
+/// @param {String} $ns - Kit name
+/// @param {String} $name - Child name
+/// @param {String} $property - Property name
+/// @param {String} $value - Value of property
+@mixin clock($ns, $name, $property, $value) {
+  .#{$ns}\:#{$name} {
+    #{$property}: #{$value};
+  }
+
+  .#{$ns}-x\:#{$name} {
+    #{$property}-horizontal: #{$value};
+  }
+
+  .#{$ns}-y\:#{$name} {
+    #{$property}-vertical: #{$value};
+  }
+
+  .#{$ns}-t\:#{$name} {
+    #{$property}-top: #{$value};
+  }
+
+  .#{$ns}-r\:#{$name} {
+    #{$property}-right: #{$value};
+  }
+
+  .#{$ns}-b\:#{$name} {
+    #{$property}-bottom: #{$value};
+  }
+
+  .#{$ns}-l\:#{$name} {
+    #{$property}-left: #{$value};
+  }
+}
+
+@mixin clock-variant($ns, $name, $property, $value) {
+  &.#{$ns}\:#{$name} {
+    #{$property}: #{$value};
+  }
+
+  &.#{$ns}-x\:#{$name} {
+    #{$property}-horizontal: #{$value};
+  }
+
+  &.#{$ns}-y\:#{$name} {
+    #{$property}-vertical: #{$value};
+  }
+
+  &.#{$ns}-t\:#{$name} {
+    #{$property}-top: #{$value};
+  }
+
+  &.#{$ns}-r\:#{$name} {
+    #{$property}-right: #{$value};
+  }
+
+  &.#{$ns}-b\:#{$name} {
+    #{$property}-bottom: #{$value};
+  }
+
+  &.#{$ns}-l\:#{$name} {
+    #{$property}-left: #{$value};
+  }
+}
