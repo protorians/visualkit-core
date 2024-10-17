@@ -1,11 +1,12 @@
-@layer theme, feature, property, color, kit, visualkit;
-
 @layer theme {
   :root {
-    --fore: var(--color-text);
-    --back: var(--color-tint);
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --font-size: medium;
     --color-scheme: dark light;
+  }
+
+  * {
+    font-family: inherit;
   }
 
   body {
@@ -48,4 +49,11 @@
   img:empty {
     background-color: var(--color-tint-alpha-1);
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+    line-height: 140%;
+  }
+
 }
