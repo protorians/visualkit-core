@@ -1,0 +1,1 @@
+export type ISimpleValue = number | string | number[] | string[];

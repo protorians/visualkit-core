@@ -1,0 +1,51 @@
+@layer theme, feature, property, color, kit, visualkit;
+
+@layer theme {
+  :root {
+    --fore: var(--color-text);
+    --back: var(--color-tint);
+    --font-size: medium;
+    --color-scheme: dark light;
+  }
+
+  body {
+    background-color: var(--color-untint);
+    min-height: 100%;
+    font-size: var(--font-size);
+    color: var(--color-text);
+  }
+
+  html {
+    height: 100%;
+    color-scheme: var(--color-scheme);
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  a {
+    --fore: var(--color-one);
+    text-decoration: none;
+
+    &:link {
+      --fore: var(--color-one);
+    }
+
+    &:hover {
+      --fore: var(--color-one-300);
+    }
+
+    &:visited {
+      --fore: var(--color-one-500);
+    }
+
+  }
+
+  img:empty {
+    background-color: var(--color-tint-alpha-1);
+  }
+}
