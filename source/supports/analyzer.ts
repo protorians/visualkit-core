@@ -3,6 +3,7 @@ import {$, RuleKit, RulesKit, StyleSheetKit} from "./index";
 import {IRuleKitSyntheticValues} from "../types";
 
 
+
 export class Analyzer {
 
   protected _mutations: MutationRecord[] = []
