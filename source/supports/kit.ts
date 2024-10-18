@@ -138,6 +138,18 @@ export class CapabilityKit<P extends IPropertyScheme> implements ICapabilityKit<
     return (this.property.state[index] || fallback) as P[K];
   }
 
+  increment<K extends keyof P>(index: K, add: number = 1): this {
+    const value = this.property.state[index];
+    if (typeof value === 'number') this.property.state[index] = ((value || 0) + add) as P[K]
+    return this;
+  }
+
+  decrement<K extends keyof P>(index: K, subtract: number = 1): this {
+    const value = this.property.state[index];
+    if (typeof value === 'number') this.property.state[index] = ((value || 0) - subtract) as P[K]
+    return this;
+  }
+
 }
 
 

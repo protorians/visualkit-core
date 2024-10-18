@@ -67,6 +67,10 @@ export interface ICapabilityKit<P extends IPropertyScheme> {
   set<K extends keyof P>(index: K, value: P[K]): this;
 
   get<K extends keyof P>(index: K, fallback?: P[K]): P[K];
+
+  increment<K extends keyof P>(index: K, add: number = 1): this;
+
+  decrement<K extends keyof P>(index: K, subtract: number = 1): this;
 }
 
 export interface IKit extends IWidget<IAttributes, HTMLElement> {
