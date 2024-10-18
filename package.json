@@ -1,7 +1,7 @@
 {
   "name": "@visualkit/core",
   "displayName": "VisualkitCore",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Visualkit core",
   "main": "./source/index.ts",
   "scripts": {
