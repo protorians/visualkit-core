@@ -5,11 +5,11 @@ import {
   decamelize
 } from "@protorians/widgets";
 import type {
-  IAbilitiesKit,
+  ICapabilityKit,
   IKit,
-  IKitAbility,
+  ICapabilityWidget,
   IKitChildren,
-  IKitAbilityCallback,
+  ICapabilityCallback,
   IKitEntries,
   KitSchematic
 } from "../types"
@@ -77,15 +77,15 @@ export class Kit
   // construct() {}
 }
 
-export class AbilitiesKit<P extends IPropertyScheme> implements IAbilitiesKit<P> {
+export class CapabilityKit<P extends IPropertyScheme> implements ICapabilityKit<P> {
 
   static abilities: IKitChildren<any> = {} as IKitChildren<any>;
 
   static context<Props extends Object>(props: Props) {
     const prepared = this.prepare<Props>(props);
     return (
-      ('ability' in props && typeof props.ability == 'function')
-        ? props.ability(new this(prepared as IPropertyScheme)) as InstanceType<typeof this>
+      ('capability' in props && typeof props.capability == 'function')
+        ? props.capability(new this(prepared as IPropertyScheme)) as InstanceType<typeof this>
         : new this(prepared as IPropertyScheme)
     );
   }
@@ -113,11 +113,11 @@ export class AbilitiesKit<P extends IPropertyScheme> implements IAbilitiesKit<P>
   initialize(): void {
   }
 
-  bind<K extends keyof P>(index: K, widget: IKitAbility): this {
-    const abilities = (this.constructor as typeof AbilitiesKit).abilities as IKitChildren<P>;
+  bind<K extends keyof P>(index: K, widget: ICapabilityWidget): this {
+    const abilities = (this.constructor as typeof CapabilityKit).abilities as IKitChildren<P>;
     this.property.effect(index, ({prop, value}) => {
-      const ability = (abilities[prop] as IKitAbilityCallback<P[K], P>) || undefined
-      if (typeof ability === 'function') ability({
+      const capability = (abilities[prop] as ICapabilityCallback<P[K], P>) || undefined
+      if (typeof capability === 'function') capability({
         value,
         widget,
         initial: this.props[index],
@@ -141,7 +141,7 @@ export class AbilitiesKit<P extends IPropertyScheme> implements IAbilitiesKit<P>
 }
 
 
-export function Ability() {
+export function Capability() {
   return function (target: any, method: string) {
     target.abilities[method] = target[method];
   }

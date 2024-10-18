@@ -37,11 +37,13 @@ export type IKitEntries = {
   [K: string]: KitSchematic<any> | undefined;
 }
 
-export interface IKit extends IWidget<IAttributes, HTMLElement> {
-
+export type IKitChildren<P extends IPropertyScheme> = {
+  [K in keyof P]: ICapabilityCallback<P[K], P>
 }
 
-export type IKitAbilityPayload<P, Props extends IPropertyScheme> = {
+export type ICapabilityWidget = IWidget<any, any>;
+
+export type ICapabilityPayload<P, Props extends IPropertyScheme> = {
   value: P;
   initial: P;
   old: P;
@@ -49,27 +51,24 @@ export type IKitAbilityPayload<P, Props extends IPropertyScheme> = {
   props: Props;
 }
 
-export type IKitAbility = IWidget<any, any>;
+export type ICapabilityCallback<P, Props extends IPropertyScheme> = (payload: ICapabilityPayload<P, Props>) => void;
 
-export type IKitAbilityCallback<P, Props extends IPropertyScheme> = (payload: IKitAbilityPayload<P, Props>) => void;
-
-export type IKitChildren<P extends IPropertyScheme> = {
-  [K in keyof P]: IKitAbilityCallback<P[K], P>
+export type ICapabilityProps<P extends IPropertyScheme, Ability extends ICapabilityKit<P>> = {
+  capability?: (capability: Ability) => Ability
 }
 
-
-export type IAbilityProps<P extends IPropertyScheme, Ability extends IAbilitiesKit<P>> = {
-  ability?: (ability: Ability) => Ability
-}
-
-export interface IAbilitiesKit<P extends IPropertyScheme> {
+export interface ICapabilityKit<P extends IPropertyScheme> {
   property: IProperty<P>;
 
   initialize(): void;
 
-  bind(index: keyof P, widgetConstructor: IKitAbility): this;
+  bind(index: keyof P, widget: ICapabilityWidget): this;
 
   set<K extends keyof P>(index: K, value: P[K]): this;
 
   get<K extends keyof P>(index: K): P[K];
+}
+
+export interface IKit extends IWidget<IAttributes, HTMLElement> {
+
 }
