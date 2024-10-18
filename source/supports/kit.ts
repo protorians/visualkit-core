@@ -134,8 +134,8 @@ export class CapabilityKit<P extends IPropertyScheme> implements ICapabilityKit<
     return this;
   }
 
-  get<K extends keyof P>(index: K): P[K] {
-    return this.property.state[index];
+  get<K extends keyof P>(index: K, fallback?: P[K]): P[K] {
+    return (this.property.state[index] || fallback) as P[K];
   }
 
 }
