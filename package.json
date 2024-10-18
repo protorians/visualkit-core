@@ -1,9 +1,10 @@
 {
   "name": "@visualkit/core",
   "displayName": "VisualkitCore",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Visualkit core",
-  "main": "./source/index.ts",
+  "main": "./build/index.js",
+  "type": "module",
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc"
@@ -27,9 +28,9 @@
   "dependencies": {
     "@protorians/core": "0.1.2-beta.12",
     "@protorians/signalable": "0.0.12",
-    "@protorians/widgets": "^0.0.6"
+    "@protorians/widgets": "^0.0.7"
   },
   "devDependencies": {
-    "typescript": "5.4.5"
+    "typescript": "5.6.3"
   }
 }
