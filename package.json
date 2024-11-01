@@ -32,11 +32,7 @@
   "dependencies": {
     "@protorians/core": "0.1.2-beta.21",
     "@protorians/signalable": "0.0.14",
-    "@protorians/widgets": "^0.0.13",
-    "cli-progress": "^3.12.0",
-    "commander": "^12.1.0",
-    "figlet": "^1.8.0",
-    "tsx": "^4.19.1"
+    "@protorians/widgets": "^0.0.13"
   },
   "devDependencies": {
     "@types/node": "^22.7.9",
