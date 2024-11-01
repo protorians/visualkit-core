@@ -52,8 +52,9 @@ export class Kits {
 
     const entry = this._entries[name] as KitSchematic<Attributes>;
     const kit = (new Kit(entry.main(parameters || {} as Attributes) as IAttributesScope<IAttributes, HTMLElement>, entry.tag as string,))
+    kit.className(`kit:${decamelize(name)}`)
 
-    return kit.className(`kit:${decamelize(name)}`);
+    return kit;
 
   }
 
@@ -74,7 +75,6 @@ export class Kits {
 export class Kit
   extends WidgetNode<IAttributes, HTMLElement>
   implements IKit {
-  // construct() {}
 }
 
 export class CapabilityKit<P extends IPropertyScheme> implements ICapabilityKit<P> {
