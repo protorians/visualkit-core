@@ -12,9 +12,38 @@ export class BuilderKit implements IBuilderKit {
   static common: IBuilderEntries = {} as IBuilderEntries;
   static generated: IBuilderEntries = {} as IBuilderEntries;
 
-  get extension(): string {
+  static get extension(): string {
     return `.${ConfigKit.schematic.build?.type || 'css'}`
   }
+
+  static getExportFilename(provider: string): string {
+    return `${path.dirname(provider)}${path.sep}${path.parse(provider).name}${this.extension}`
+  }
+
+  static begin(provider: string): typeof this {
+    try {
+      const filename = this.getExportFilename(provider);
+      fs.writeFileSync(filename, '')
+    } catch (er) {
+      console.error('[VisualKit] before export failed')
+    }
+    return this;
+  }
+
+  static close(provider: string): typeof this {
+    try {
+      const filename = this.getExportFilename(provider);
+      if (fs.existsSync(filename)) {
+        const content = fs.readFileSync(filename, {encoding: 'utf-8'});
+        if (!content.trim().length) fs.unlinkSync(filename)
+      }
+    } catch (er) {
+      console.error('[VisualKit] after export failed')
+    }
+
+    return this;
+  }
+
 
   get directory(): string {
     return (
@@ -28,17 +57,14 @@ export class BuilderKit implements IBuilderKit {
     return this._computed
   }
 
-  get exported(): boolean{
+  get exported(): boolean {
     return this._exported
   }
 
 
   protected _computed: IBuilderComputed
   protected _exported: boolean = false;
-
   entries: IBuilderEntries;
-
-
 
   constructor() {
     this.entries = {} as IBuilderEntries;
@@ -48,10 +74,14 @@ export class BuilderKit implements IBuilderKit {
   push(entry: IBuilderEntry, isCommon?: boolean): this {
 
     if (ConfigKit.schematic.build?.splitStyle) {
-      if (entry.selector in BuilderKit.generated) {
-      } else if (entry.selector in this.entries || entry.selector in BuilderKit.common || isCommon) {
+      // if (entry.selector in BuilderKit.generated) {
+      //   BuilderKit.common[entry.selector] = entry.properties;
+      // } else
+
+      // entry.selector in this.entries || entry.selector in BuilderKit.common ||
+      if (isCommon) {
         BuilderKit.common[entry.selector] = entry.properties;
-        if (entry.selector in this.entries) this.remove(entry.selector)
+        // if (entry.selector in this.entries) this.remove(entry.selector)
       } else {
         this.entries[entry.selector] = entry.properties;
       }
@@ -88,7 +118,7 @@ export class BuilderKit implements IBuilderKit {
     // this.beforeExport(provider)
 
     if (ConfigKit.schematic.build?.verbose && !provider.includes('node_modules') && (entries.length))
-      Logger.notice('[VISUALKIT]', Logger.getFileRelativePath(provider), 'generate...', )
+      Logger.notice('[VISUALKIT]', Logger.getFileRelativePath(provider), 'generate...',)
 
     if (entries.length) {
       entries.forEach(([selector, properties]) => {
@@ -117,35 +147,9 @@ export class BuilderKit implements IBuilderKit {
     return this;
   }
 
-
-  // beforeExport(provider: string): this {
-  //   try {
-  //     fs.writeFileSync(this.getExportFilename(provider), '')
-  //   } catch (er) {
-  //     console.error('[VisualKit] initializeExport failed')
-  //   }
-  //   return this;
-  // }
-
-  // afterExport(provider: string): this {
-  //   try {
-  //     const filename = this.getExportFilename(provider);
-  //     const content = fs.readFileSync(filename, {encoding: 'utf-8'});
-  //     if (!content.trim().length) fs.unlinkSync(filename)
-  //   } catch (er) {
-  //     console.error('[VisualKit] initializeExport failed')
-  //   }
-  //
-  //   return this;
-  // }
-
-  getExportFilename(provider: string): string {
-    return `${path.dirname(provider)}${path.sep}${path.parse(provider).name}${this.extension}`
-  }
-
   load(provider: string): string {
     try {
-      return fs.readFileSync(this.getExportFilename(provider), {encoding: 'utf-8'});
+      return fs.readFileSync(BuilderKit.getExportFilename(provider), {encoding: 'utf-8'});
     } catch (er) {
       console.error('[VisualKit] initializeExport failed')
     }
@@ -155,9 +159,12 @@ export class BuilderKit implements IBuilderKit {
 
   export(provider: string, computed: string): boolean {
     try {
-      if (!computed.trim().length) return true;
+      if (!computed.trim().length) {
+        this._exported = true;
+        return true;
+      }
 
-      const filename = this.getExportFilename(provider)
+      const filename = BuilderKit.getExportFilename(provider)
       // const filename = `${provider}${this.extension}`
       const minify = typeof ConfigKit.schematic.build?.minify == 'boolean' ? ConfigKit.schematic.build?.minify : false;
       const eol = minify ? `` : `\n`;

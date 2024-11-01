@@ -13,8 +13,6 @@ export type IBuilderComputed = string[];
 
 export interface IBuilderKit {
 
-  get extension(): string;
-
   get directory(): string;
 
   get computed(): string[];
@@ -32,12 +30,6 @@ export interface IBuilderKit {
   prepare(filename: string): this;
 
   compute(selector: string, properties: IRuleKitSyntheticValues): string;
-
-  // beforeExport(provider: string): this;
-
-  // afterExport(provider: string): this;
-
-  getExportFilename(provider: string): string;
 
   load(provider: string): string;
 
