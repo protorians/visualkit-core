@@ -9,7 +9,7 @@ import * as process from "node:process";
 export class RaitonPlugin {
 
   static readonly identifier: string = 'visualkit-raiton-plugin';
-  static readonly configFilename: string = 'visualkit.config.js';
+  static readonly configFilename: string = 'visualkit.config.mjs';
   static readonly cachesDir: string = '.visualkit';
 
   protected _cacheDir: string = '';
