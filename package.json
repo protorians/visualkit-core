@@ -1,8 +1,9 @@
 {
   "name": "@visualkit/core",
   "displayName": "VisualkitCore",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Visualkit core",
+  "main": "./source/index.ts",
   "type": "module",
   "scripts": {
     "dev": "tsc --watch -p esm.tsconfig.json",
