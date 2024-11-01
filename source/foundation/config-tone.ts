@@ -1,8 +1,9 @@
-import {ITone} from "../types";
+import type {ITone} from "../types";
 
 export function lightToneKit(): ITone {
   return {
     id: 'light',
+    scheme: 'light',
     text: '#000000',
     tint: '#f7f8fa',
     untint: '#e7ecfc',
@@ -17,6 +18,7 @@ export function lightToneKit(): ITone {
 export function darkToneKit(): ITone {
   return {
     id: 'dark',
+    scheme: 'dark',
     text: '#ffffff',
     tint: '#1F1F1F',
     untint: '#111111',

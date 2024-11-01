@@ -1,4 +1,4 @@
-import {IRuleKit} from "../types";
+import type {IRuleKit} from "../types";
 import {paddingRuleKit} from "../rules/padding";
 import {alignContentRuleKit, alignItemsRuleKit} from "../rules/align";
 import {justifyContentRuleKit, justifyItemsRuleKit} from "../rules/justify";
@@ -11,10 +11,13 @@ import {
   nsPhoneRuleKit,
   nsTabletRuleKit,
   nsTvRuleKit
-} from "../rules/ns.screen.size";
+} from "../rules/breakpoints";
+import {flexboxRuleKit} from "../rules/flex";
+import {columnsRuleKit} from "../rules/column";
 
-export function baseRulesKit(): IRuleKit<any>[] {
+export function baseRulesKit(): IRuleKit[] {
   return [
+    flexboxRuleKit(),
     paddingRuleKit(),
     alignItemsRuleKit(),
     alignContentRuleKit(),
@@ -22,6 +25,7 @@ export function baseRulesKit(): IRuleKit<any>[] {
     justifyItemsRuleKit(),
     foreColorRuleKit(),
     backColorRuleKit(),
+    columnsRuleKit(),
 
     nsMiniPhoneRuleKit(),
     nsPhoneRuleKit(),

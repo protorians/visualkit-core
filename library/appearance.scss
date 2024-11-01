@@ -5,8 +5,15 @@
     --color-scheme: dark light;
   }
 
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
   * {
     font-family: inherit;
+    accent-color: var(--color-one);
+    scrollbar-color: var(--color-one) var(--color-tint);
+    scrollbar-width: thin;
   }
 
   body {
@@ -14,6 +21,7 @@
     min-height: 100%;
     font-size: var(--font-size);
     color: var(--color-text);
+    overflow: scroll;
   }
 
   html {

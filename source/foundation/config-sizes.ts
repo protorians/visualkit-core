@@ -1,4 +1,4 @@
-import {ISize} from "../types";
+import type {ISize} from "../types";
 
 export function baseSizesKit(): ISize {
   return {
