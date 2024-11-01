@@ -1,6 +1,6 @@
 import {ConfigKit} from "./config";
 import {VisualKitException} from "./exception";
-import type {IRuleKit, IRuleKitPayload, IRuleKitProps, IRuleKitSyntheticValues} from "../types";
+import type {ICustomSize, IRuleKit, IRuleKitPayload, IRuleKitProps, IRuleKitSyntheticValues, ISize} from "../types";
 
 
 export class RuleKit implements IRuleKit {
@@ -38,76 +38,6 @@ export class RuleKit implements IRuleKit {
 
 }
 
-// export class NamespaceRuleKit extends RuleKit {
-//
-//   get name(): string {
-//     return (this.props.namespace || this.props.alias) as string;
-//   };
-//
-//   get query(): string {
-//     return `[class^="${this.props.namespace}\:\:"], [class*=" ${this.props.namespace}\:\:"]`;
-//   }
-//
-//   get pattern(): string {
-//     return `(?<!:)${this.props.namespace}::(.[a-zA-Z0-9]*):(.[a-zA-Z0-9-#_]*)`;
-//   }
-//
-//   value(payload: IRuleKitPayload): IRuleKitSyntheticValues {
-//     return this.props.transform(payload);
-//   }
-//
-// }
-
-
-
-// export class AliasRuleKit extends RuleKit<IAliasRule> {
-//
-//   get name(): string {
-//     return this.parameter.alias;
-//   };
-//
-//   get query(): string {
-//     return `[class^="${this.parameter.alias}\:"], [class*=" ${this.parameter.alias}\:"]`;
-//   }
-//
-//   get expression(): string {
-//     return `(?<!:)${this.parameter.alias}:(.[a-zA-Z0-9-#_]*)`;
-//   }
-//
-//   get property(): string {
-//     return this.parameter.property || this.parameter.alias;
-//   }
-//
-//   value(payload: IRuleKitPayload): IRuleKitSyntheticValues {
-//     return this.parameter.transform(payload);
-//   }
-//
-// }
-//
-//
-
-//
-//
-// export class ComposingRuleKit extends RuleKit<IComposingRule> {
-//
-//   get name(): string {
-//     return this.parameter.alias;
-//   };
-//
-//   get query(): string {
-//     return `[class^="${this.parameter.alias}\:"], [class*=" ${this.parameter.alias}\:"]`;
-//   }
-//
-//   get expression(): string {
-//     return `(?<!:)${this.parameter.alias}:(.[a-zA-Z0-9-#_]*)`;
-//   }
-//
-//   value(payload: IRuleKitPayload): IRuleKitSyntheticValues {
-//     return this.parameter.transform(payload);
-//   }
-//
-// }
-
 export class RulesKit {
 
   static get(name: string): IRuleKit | undefined {
@@ -121,7 +51,7 @@ export class RulesKit {
     return this;
   }
 
-  static sizes() {
+  static sizes(): Partial<ISize> | ICustomSize | undefined {
     return ConfigKit.schematic.sizes;
   }
 
