@@ -33,6 +33,16 @@ export class ExcavationKit implements IExcavationKit {
     this.builder = new BuilderKit;
   }
 
+  begin(): typeof this{
+    BuilderKit.begin(this.provider)
+    return this;
+  }
+
+  close(): typeof this{
+    BuilderKit.close(this.provider)
+    return this;
+  }
+
   source(source: string): this {
     ([...source.matchAll(ExcavationKit.WIDGET_REGEX)]
       .map(match => this.matches = [...this.matches, ...(match[1].matchAll(ExcavationKit.QUOTES_ONLY))]))
