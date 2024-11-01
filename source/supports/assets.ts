@@ -15,7 +15,7 @@ import type {
   IServiceAsset
 } from "../types";
 import {Signalables} from "@protorians/signalable";
-import {VisualKitException} from "../foundation/exception";
+import {VisualKitException} from "../foundation";
 import type {IParameters} from "@protorians/widgets";
 import {unCamelCase, type IClimbing, Climbing} from "@protorians/core";
 
