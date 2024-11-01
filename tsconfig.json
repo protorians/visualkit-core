@@ -1,31 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "declaration": true,
-    "noImplicitAny": false,
-    "allowJs": false,
-    "moduleResolution": "node",
     "module": "ESNext",
-    "noEmit": false,
+    "target": "es2020",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "allowJs": true,
     "removeComments": false,
-    "declarationMap": true,
-    "inlineSources": true,
-    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": false,
+    "inlineSources": false,
+    "sourceMap": false,
     "preserveConstEnums": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
+    "noEmit": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "strict": true,
-    "rootDir": "./source",
-    "outDir": "./build",
+    "rootDir": "./"
   },
   "exclude": [
     "node_modules",
-    "./build"
-  ],
-  "include": [
-    "./source"
+    "bin",
+    "~cjs",
+    "~esm",
+    "~build",
   ]
 }
