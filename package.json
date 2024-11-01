@@ -33,7 +33,7 @@
   "dependencies": {
     "@protorians/core": "0.1.2-beta.21",
     "@protorians/signalable": "0.0.14",
-    "@protorians/widgets": "^0.0.13"
+    "@protorians/widgets": "^0.0.14"
   },
   "devDependencies": {
     "@types/node": "^22.7.9",
