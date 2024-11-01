@@ -13,6 +13,13 @@ export type IThemeConfig = {
    */
   name: string,
 
+
+  /**
+   * Use Client color-scheme (auto-detection)
+   */
+  useClientTone?: boolean;
+
+
   /**
    * IThemeSettings.palettes
    * @description Colors Palette list
@@ -56,5 +63,7 @@ export type IThemeSettings = {
   palette?: string;
 
   tone?: string;
+
+  useColorScheme?: boolean;
 
 }

@@ -15,9 +15,9 @@ import type {
   IServiceAsset
 } from "../types";
 import {Signalables} from "@protorians/signalable";
-import {Climbing, IClimbing, unCamelCase} from "@protorians/core";
-import {VisualKitException} from "./exception";
-import {IParameters} from "@protorians/widgets";
+import {VisualKitException} from "../foundation/exception";
+import type {IParameters} from "@protorians/widgets";
+import {unCamelCase, type IClimbing, Climbing} from "@protorians/core";
 
 export class AssetsKit<P extends IParameters> implements IAssetKit<P> {
 

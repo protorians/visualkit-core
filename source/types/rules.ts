@@ -1,5 +1,3 @@
-import {IParameters} from "@protorians/widgets"
-
 /**
  * IRuleKitPayload
  * @description Data sent when pattern is ok
@@ -9,50 +7,65 @@ import {IParameters} from "@protorians/widgets"
  */
 export type IRuleKitPayload = {
   value: string;
-  target: HTMLElement;
+  target?: HTMLElement;
   selector: string;
-  property: string;
-  namespace?: string;
 }
 
 /**
  * IRuleKit
  * @description Change behavior of values based on those detected when auto-building style in VisualKit
  */
-export interface IRuleKit<P extends IParameters> {
+export interface IRuleKit {
 
   get name(): string;
 
-  readonly parameter: P;
+  readonly props: IRuleKitProps;
 
   get query(): string;
 
-  get expression(): string;
+  get alias(): string;
 
-  get property(): string | undefined;
+  get ns(): string;
 
   value: IRuleKitTransformer;
 }
 
-export type IAliasRule = {
-  alias: string;
-  property?: string;
-  transform: IRuleKitTransformer
-}
+// export type IAliasRule = {
+//   alias: string;
+//   property?: string;
+//   transform: IRuleKitTransformer
+// }
+//
+// export type INamespaceRule = {
+//   namespace: string;
+//   transform: IRuleKitTransformer
+// }
 
-export type INamespaceRule = {
+export type IRuleKitProps = {
+  alias: string;
+  namespace?: string;
+  transform: IRuleKitTransformer
+} | {
+  alias?: string;
   namespace: string;
   transform: IRuleKitTransformer
 }
 
-export type IRuleKitSyntheticValues = string | number | IRuleKitDetails | undefined;
+export type IRuleKitSyntheticValues = IRuleKitDetails | IRuleKitComposed | undefined;
 
 export type IRuleKitTransformer = (payload: IRuleKitPayload) => IRuleKitSyntheticValues;
 
-export type IRuleKitDetails = {
-  media?: string;
-  keyframe?: string;
-  layer?: string;
-  support?: string;
-  value?: string;
+export type IRuleKitDetails = IRuleKitComposed & {
+  '@media'?: string;
+  '@keyframe'?: string;
+  '@layer'?: string;
+  '@support'?: string;
+}
+
+export type IRuleKitComposed = {
+  [K in keyof CSSStyleDeclaration]?: string | undefined;
+}
+
+export type IRuleKitStyle = {
+  [K in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[K]
 }

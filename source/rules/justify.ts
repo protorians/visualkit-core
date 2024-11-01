@@ -1,4 +1,4 @@
-import {AliasRuleKit} from "../supports";
+import {RuleKit} from "../foundation";
 
 export const justifyProperties = [
   "normal",
@@ -21,21 +21,19 @@ export const justifyProperties = [
 ]
 
 export function justifyItemsRuleKit() {
-  return new AliasRuleKit({
+  return new RuleKit({
     alias: 'justify-items',
-    property: 'justify-items',
     transform({value}) {
-      return justifyProperties.includes(value) ? value : undefined;
+      return {'justify-items': justifyProperties.includes(value) ? value : undefined};
     }
   })
 }
 
 export function justifyContentRuleKit() {
-  return new AliasRuleKit({
+  return new RuleKit({
     alias: 'justify',
-    property: 'justify-content',
     transform({value}) {
-      return justifyProperties.includes(value) ? value : undefined;
+      return {'justify-content': justifyProperties.includes(value) ? value : undefined};
     }
   })
 }

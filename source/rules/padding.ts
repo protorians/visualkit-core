@@ -1,11 +1,10 @@
-import {AliasRuleKit, RulesKit} from "../supports";
+import {RuleKit, RulesKit} from "../foundation";
 
 export function paddingRuleKit() {
-  return new AliasRuleKit({
+  return new RuleKit({
     alias: 'p',
-    property: 'padding',
     transform({value}) {
-      return RulesKit.getSize(value);
+      return {padding: RulesKit.getSize(value) || value};
     }
   })
 }

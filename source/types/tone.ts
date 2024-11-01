@@ -13,6 +13,7 @@ import {IFeatureKit} from "./feature";
  */
 export type ITone = {
   id: string;
+  scheme: IToneScheme;
 } & IToneSlots;
 
 /**
@@ -28,6 +29,8 @@ export type IToneSlots = {
   black: string;
   white: string;
 }
+
+export type IToneScheme = 'light' | 'dark'
 
 export interface IToneKit extends IFeatureKit {
 }

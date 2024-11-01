@@ -1,13 +1,13 @@
-import {ColorKit} from "../supports/colors";
-import {AliasRuleKit, ColorVariableKit} from "../supports";
-
+import {RuleKit, ColorAssertion} from "../foundation";
 
 export function foreColorRuleKit() {
-  return new AliasRuleKit({
+  return new RuleKit({
     alias: 'fore',
-    property: 'color',
     transform({value}) {
-      return ColorVariableKit.get(value) ? `var(--color-${value})` : (ColorKit.validate(value) ? value : undefined);
+      return {
+        'color': ColorAssertion.isValidate(value) ? value : `var(--color-${value})`
+        // 'color': ColorVariableKit.get(value) ? `var(--color-${value})` : (ColorAssertion.validateHex(value) ? value : undefined)
+      }
     }
   })
 }

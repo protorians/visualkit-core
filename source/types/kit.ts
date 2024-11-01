@@ -41,7 +41,7 @@ export type IKitChildren<P extends IPropertyScheme> = {
   [K in keyof P]: ICapabilityCallback<P[K], P>
 }
 
-export type ICapabilityWidget = IWidget<any, any>;
+export type ICapabilityWidget = IWidget<IAttributes, HTMLElement>;
 
 export type ICapabilityPayload<P, Props extends IPropertyScheme> = {
   value: P;
@@ -68,9 +68,9 @@ export interface ICapabilityKit<P extends IPropertyScheme> {
 
   get<K extends keyof P>(index: K, fallback?: P[K]): P[K];
 
-  increment<K extends keyof P>(index: K, add: number = 1): this;
+  increment<K extends keyof P>(index: K, add: number): this;
 
-  decrement<K extends keyof P>(index: K, subtract: number = 1): this;
+  decrement<K extends keyof P>(index: K, subtract: number): this;
 }
 
 export interface IKit extends IWidget<IAttributes, HTMLElement> {

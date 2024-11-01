@@ -5,15 +5,17 @@ export interface IFeatureKit {
 
   get computed(): IFeaturesComputed;
 
+  get rendered(): string;
+
   get type(): FeatureBatch;
 
   sheet: IFeatures;
 
   compute(): this;
 
-  attach(): HTMLStyleElement | undefined;
+  // attach(): HTMLStyleElement | undefined;
 
-  render(): this;
+  render(directory?: string): this;
 }
 
 export type IFeatures = {

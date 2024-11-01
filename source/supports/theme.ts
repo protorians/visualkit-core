@@ -1,8 +1,5 @@
-import {IColorSlots, IThemeSettings, IToneKit, IFeatures} from "../types";
-import {ConfigKit} from "./config";
-import {VisualKitException} from "./exception";
-import {FeatureKit} from "./feature";
-import {FeatureBatch} from "../constants";
+import {IThemeSettings} from "../types";
+import {ConfigKit, VisualKitException} from "../foundation";
 
 export class ThemeKit {
 
@@ -23,6 +20,7 @@ export class ThemeKit {
       name: ConfigKit.schematic.theme.name,
       palette: (ConfigKit.schematic.theme.palettes.length) ? ConfigKit.schematic.theme.palettes[0].id : undefined,
       tone: (ConfigKit.schematic.theme.tones.length) ? ConfigKit.schematic.theme.tones[0].id : undefined,
+      useColorScheme: (ConfigKit.schematic.theme.useClientTone) ? ConfigKit.schematic.theme.useClientTone : undefined,
     };
   }
 
@@ -55,8 +53,29 @@ export class ThemeKit {
     return this
       .initializeLayers()
       .switch(this.settings.name)
-      .palette(ConfigKit.schematic.theme.palettes.length ? ConfigKit.schematic.theme.palettes[0].id : 'default')
-      .tone(ConfigKit.schematic.theme.tones.length ? ConfigKit.schematic.theme.tones[0].id : 'default')
+      .palette(this.settings.palette || ConfigKit.schematic.theme.palettes.length ? ConfigKit.schematic.theme.palettes[0].id : 'default')
+      .tone(this.settings.tone || ConfigKit.schematic.theme.tones.length ? ConfigKit.schematic.theme.tones[0].id : 'default')
+      .dynamicColorScheming(this.settings.useColorScheme || ConfigKit.schematic.theme.useClientTone)
+  }
+
+  static dynamicColorScheming(use?: boolean) {
+    if (use) {
+      if ('matchMedia' in window) {
+        const checker = window.matchMedia(`(prefers-color-scheme: dark)`);
+        checker.addEventListener('change', (e) => (e.matches) ? this.colorScheme('dark') : this.colorScheme('light'))
+        if (checker.matches) this.colorScheme('dark')
+        else this.colorScheme('light')
+      }
+    } else {
+      (document.documentElement).removeAttribute('theme:color-scheme')
+    }
+    return this;
+  }
+
+  static colorScheme(colorScheme: string, target?: HTMLElement) {
+    (target || document.documentElement)
+      .setAttribute('theme:color-scheme', colorScheme.trim().toLowerCase() == 'dark' ? 'dark' : 'light')
+    return this;
   }
 
   static initializeLayers(layers?: string[]) {
@@ -74,20 +93,4 @@ export class ThemeKit {
     return this;
   }
 
-}
-
-
-export class ThemeColorKit extends FeatureKit<IFeatures> implements IToneKit {
-  protected name: string = 'name';
-  protected identifier: string = 'theme';
-  protected batch: FeatureBatch = FeatureBatch.Color;
-  protected _computed: IColorSlots | undefined;
-}
-
-export class ThemePropertyKit extends FeatureKit<IFeatures> implements IToneKit {
-  protected name: string = 'name';
-  protected identifier: string = 'theme';
-  protected prefix: string = 'theme';
-  protected batch: FeatureBatch = FeatureBatch.Property;
-  protected _computed: IFeatures | undefined;
 }

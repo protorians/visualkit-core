@@ -95,17 +95,20 @@ export class CapabilityKit<P extends IPropertyScheme> implements ICapabilityKit<
 
     Object.entries(props)
       .forEach(([key, value]) => {
-        if (key !== "ability") properties[key as keyof Omit<Props, 'ability'>] = value as Omit<Props, 'ability'>[keyof Omit<Props, 'ability'>]
+        if (key !== "ability" && typeof value !== 'function')
+          properties[key as keyof Omit<Props, 'ability'>] = value as Omit<Props, 'ability'>[keyof Omit<Props, 'ability'>]
       })
 
     return properties;
   }
 
   property: IProperty<P>;
+  protected readonly props
 
   constructor(
-    protected readonly props: P,
+    props: P,
   ) {
+    this.props = CapabilityKit.prepare<P>(props);
     this.property = new Property(props);
     this.initialize();
   }

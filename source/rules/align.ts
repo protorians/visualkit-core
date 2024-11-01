@@ -1,4 +1,4 @@
-import {AliasRuleKit} from "../supports";
+import {RuleKit} from "../foundation";
 
 export const alignProperties = [
   "normal",
@@ -23,21 +23,19 @@ export const alignProperties = [
 ]
 
 export function alignItemsRuleKit() {
-  return new AliasRuleKit({
+  return new RuleKit({
     alias: 'align',
-    property: 'align-items',
     transform({value}) {
-      return alignProperties.includes(value) ? value : undefined;
+      return {'align-items': alignProperties.includes(value) ? value : undefined};
     }
   })
 }
 
 export function alignContentRuleKit() {
-  return new AliasRuleKit({
+  return new RuleKit({
     alias: 'align-content',
-    property: 'align-content',
     transform({value}) {
-      return alignProperties.includes(value) ? value : undefined;
+      return {'align-content': alignProperties.includes(value) ? value : undefined};
     }
   })
 }

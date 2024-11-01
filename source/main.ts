@@ -1,5 +1,5 @@
-import {ThemeKit, ClientInterface, Observer} from "./supports";
+import {ThemeKit, ClientInterface} from "./supports";
 
 ThemeKit.run()
 ClientInterface.run();
-Observer.run();
+// Observer.run();

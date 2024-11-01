@@ -1,7 +1,7 @@
 import type {ICrossOrigin, ILinkRel, IParameters, IReferrerPolicy} from "@protorians/widgets";
-import {VisualKitException} from "../supports";
-import {ISignalables} from "@protorians/signalable";
-import {IClimbing} from "@protorians/core";
+import type {ISignalables} from "@protorians/signalable";
+import type {IClimbing} from "@protorians/core";
+import {VisualKitException} from "../foundation";
 
 export type IScriptAsset = {
   src: string;

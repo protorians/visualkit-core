@@ -1,5 +1,5 @@
-import {IStyleOnly} from "@protorians/widgets";
+import {IStyleKit, IStyleProps} from "./style";
 
-export type IStyleSheetDeclaration = {
-  [Selector: string] : IStyleOnly;
+export type IStyleSheetDeclarations = {
+  [Selector: string]: Partial<IStyleProps> | IStyleKit;
 }
