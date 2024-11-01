@@ -3,16 +3,20 @@
   "displayName": "VisualkitCore",
   "version": "0.0.6",
   "description": "Visualkit core",
-  "main": "./build/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc"
+    "dev": "tsc --watch -p esm.tsconfig.json",
+    "fix:ext": "ts-add-js-extension --dir=build",
+    "build": "tsc -p esm.tsconfig.json && ts-add-js-extension --dir=build"
   },
   "exports": {
-    "./appearance": "./library/main.scss",
+    "./appearance": "./library/appearance.scss",
     "./library/*": "./library/*",
-    "./*": "./build/*",
+    "./constants": "./build/constants/index.js",
+    "./foundation": "./build/foundation/index.js",
+    "./plugin": "./build/plugin/index.js",
+    "./rules/*": "./build/rules/*",
+    "./main": "./build/main.js",
     ".": "./build/index.js"
   },
   "keywords": [
@@ -26,11 +30,16 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@protorians/core": "0.1.2-beta.12",
-    "@protorians/signalable": "0.0.12",
-    "@protorians/widgets": "^0.0.7"
+    "@protorians/core": "0.1.2-beta.21",
+    "@protorians/signalable": "0.0.14",
+    "@protorians/widgets": "^0.0.13",
+    "cli-progress": "^3.12.0",
+    "commander": "^12.1.0",
+    "figlet": "^1.8.0",
+    "tsx": "^4.19.1"
   },
   "devDependencies": {
+    "@types/node": "^22.7.9",
     "typescript": "5.6.3"
   }
 }
