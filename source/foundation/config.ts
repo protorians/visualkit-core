@@ -1,5 +1,5 @@
 import type {IConfigSchematic, IConfigSchematicBuild} from "../types";
-import {baseSizesKit} from "./config-sizes";
+import {sizesKitPack} from "./config-sizes";
 import {rulesKitPack} from "./config-rules";
 
 export class ConfigKit {
@@ -37,7 +37,7 @@ export class ConfigKit {
     /**
      * Merge sizes
      */
-    schematic.sizes = {...baseSizesKit(), ...(schematic.sizes || {})};
+    schematic.sizes = schematic.sizes || sizesKitPack();
 
     /**
      * Merge rules

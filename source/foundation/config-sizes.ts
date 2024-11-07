@@ -1,6 +1,6 @@
 import type {ISize} from "../types";
 
-export function baseSizesKit(): ISize {
+export function sizesKitPack(): ISize {
   return {
     XXS: '.3rem',
     XS: '.5rem',
