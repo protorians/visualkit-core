@@ -39,9 +39,15 @@ import {opacityRuleKit} from "../rules/opacity";
 import {ratioRuleKit} from "../rules/ratio";
 import {borderRadiusRuleKit} from "../rules/rounded";
 import {textRuleKit} from "../rules/text";
+import {fillColorRuleKit} from "../rules/fill";
+import {strokeColorRuleKit} from "../rules/stroke";
+import {columnGapRuleKit, gapRuleKit, rowGapRuleKit} from "../rules/gap";
+import {pseudoClassesRuleKit} from "../rules/pseudo";
 
 export function baseRulesKit(): IRuleKit[] {
   return [
+    ...pseudoClassesRuleKit(),
+
     flexboxRuleKit(),
     paddingRuleKit(),
     paddingXRuleKit(),
@@ -72,6 +78,11 @@ export function baseRulesKit(): IRuleKit[] {
     ratioRuleKit(),
     borderRadiusRuleKit(),
     textRuleKit(),
+    strokeColorRuleKit(),
+    fillColorRuleKit(),
+    gapRuleKit(),
+    rowGapRuleKit(),
+    columnGapRuleKit(),
 
     nsMiniPhoneRuleKit(),
     nsPhoneRuleKit(),
