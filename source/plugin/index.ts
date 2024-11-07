@@ -3,8 +3,6 @@ import {BuilderKit, ConfigKit, ExcavationKit,} from "../foundation";
 import {Logger} from "../utils/logger";
 import {RaitonPlugin} from "./raiton";
 
-// const __dirname__ = typeof __dirname == 'undefined' ? import.meta.dirname : __dirname;
-
 export function visualkit() {
   const plugin = new RaitonPlugin(process.cwd());
   // let configLoaded: boolean = false;

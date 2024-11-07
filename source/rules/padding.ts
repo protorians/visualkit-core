@@ -4,7 +4,9 @@ export function paddingRuleKit() {
   return new RuleKit({
     alias: 'p',
     transform({value}) {
-      return {padding: RulesKit.getSize(value) || value};
+      return {
+        padding: RulesKit.getSize(value) || value,
+      };
     }
   })
 }

@@ -2,9 +2,10 @@ import {RuleKit} from "../foundation";
 
 export function opacityRuleKit() {
   return new RuleKit({
-    alias: 'o',
+    alias: 'opacity',
     transform({value}) {
-      return !isNaN(parseInt(value)) ? {'opacity': value,} : {}
+      const val = parseInt(value)
+      return !isNaN(val) ? {'opacity': `${val / 100}`,} : {}
     }
   })
 }
