@@ -44,7 +44,7 @@ import {strokeColorRuleKit} from "../rules/stroke";
 import {columnGapRuleKit, gapRuleKit, rowGapRuleKit} from "../rules/gap";
 import {pseudoClassesRuleKit} from "../rules/pseudo";
 
-export function baseRulesKit(): IRuleKit[] {
+export function rulesKitPack(): IRuleKit[] {
   return [
     ...pseudoClassesRuleKit(),
 
