@@ -1,8 +1,8 @@
-import {IBuilderKit, IExcavationKit} from "../types";
+import {IBuilderKit, IExcavationKit, IRuleKitSyntheticValues} from "../types";
 import {ConfigKit} from "./config";
-import type {IRuleKit} from "../types";
 import {BuilderKit} from "./builder";
-import {RulesKit} from "./rules";
+import {RuleKit, RulesKit,} from "./rules";
+import {Collection} from "../utils";
 import * as process from "node:process";
 
 
@@ -33,12 +33,12 @@ export class ExcavationKit implements IExcavationKit {
     this.builder = new BuilderKit;
   }
 
-  begin(): typeof this{
+  begin(): typeof this {
     BuilderKit.begin(this.provider)
     return this;
   }
 
-  close(): typeof this{
+  close(): typeof this {
     BuilderKit.close(this.provider)
     return this;
   }
@@ -54,51 +54,58 @@ export class ExcavationKit implements IExcavationKit {
     return this;
   }
 
-  load(): string{
+  load(): string {
     return this.builder.load(this.provider)
   }
 
-  make(): this {
+  resolve(selector: string, sequences: string[], value: string): IRuleKitSyntheticValues {
+    let properties: IRuleKitSyntheticValues = {}
 
+    if (ConfigKit.schematic.rules) {
+
+      for (let index = 0; index < sequences.length; index++) {
+        const matches = [...(sequences[index]).matchAll(/(.[a-zA-Z0-9-#_]*)\((.*)\)/g)];
+        const match = ((matches.length) ? matches[0][1] : undefined) || (sequences[index]);
+        const sequence = RulesKit.get(match);
+
+        if (sequence instanceof RuleKit) {
+          properties = {
+            ...(properties),
+            ...(sequence?.props.transform({ value: ((matches.length) ? matches[0][2] : undefined) || value, selector,}) || {})
+          }
+        }
+      }
+    }
+
+    return properties;
+  }
+
+  make(): this {
     const root = ConfigKit.schematic.build?.directories?.root || process.cwd();
 
-    for (let index in ConfigKit.schematic.rules) {
-      const classNames = this.matches.map(m => m[1]).join(' ');
+    for (let classNames of this.matches.map(m => m[1])) {
+      classNames.split(' ')
+        .filter(v => v.trim().length)
+        .forEach(className => {
+          const selector = `.${className}`
+          const searchAlias = className.split(':')
+          const searchNamespace = className.split('::')
+          let properties: IRuleKitSyntheticValues = {}
 
-      if (!classNames.trim().length) continue;
+          if (searchNamespace.length > 1) {
+            const refactor = Collection.refactor(searchNamespace, 0, searchNamespace.length - 2);
+            const split = (searchNamespace[searchNamespace.length - 1]).split(':')
+            refactor.push(split[0])
+            properties = this.resolve(selector, refactor, split[1] || '')
+          } else if (searchAlias.length) {
+            properties = this.resolve(selector, [searchAlias[0]], searchAlias[1])
+          }
 
-      const rule: IRuleKit = ConfigKit.schematic.rules[index];
-      const matches = [
-        ...classNames.matchAll(new RegExp(rule.ns, 'g')),
-        ...classNames.matchAll(new RegExp(rule.alias, 'g')),
-      ]
-
-
-      matches.forEach(match => {
-        const selector: string = `.${match[0]}`;
-
-        let properties = rule.props.transform({
-          value: `${match[2] || match[1]}`,
-          selector,
+          this.builder.push({selector, properties,}, !this.provider.startsWith(root))
         })
-
-        if (match.length == 3) {
-          const affiliated = RulesKit.get(match[1]);
-
-          if (affiliated)
-            properties = {
-              ...properties,
-              ...(affiliated?.props.transform({value: `${match[2]}`, selector,}) || {})
-            }
-        }
-
-        this.builder.push({selector, properties,}, !this.provider.startsWith(root))
-      })
-
     }
 
     this.builder.generate(this.provider)
-
     return this;
   }
 

@@ -1,4 +1,5 @@
 import {IBuilderKit} from "./builder";
+import {IRuleKitSyntheticValues} from "./rules";
 
 export interface IExcavationKit {
   get hostExtension(): string;
@@ -16,6 +17,8 @@ export interface IExcavationKit {
   htmlSource(source: string): this;
 
   load(): string;
+
+  resolve(selector: string, sequences: string[], value: string): IRuleKitSyntheticValues;
 
   make(): this;
 }

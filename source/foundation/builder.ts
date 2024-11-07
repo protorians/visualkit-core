@@ -182,25 +182,46 @@ export class BuilderKit implements IBuilderKit {
   }
 
 
+  static parseSelector(selector: string) {
+    return selector
+      .replace(/:/gi, '\\:')
+      .replace(/\(/g, '\\(')
+      .replace(/\)/g, '\\)')
+  }
+
   compute(selector: string, properties: IRuleKitSyntheticValues): string {
     const nested: string[] = [];
+    const pseudo: string[] = [];
     const minify = typeof ConfigKit.schematic.build?.minify == 'boolean' ? ConfigKit.schematic.build?.minify : false;
     const eol = minify ? `` : `\n`;
 
     if (properties) {
-      const compose = `${selector.replace(/:/gi, '\\:')}{${eol}${
+      const compose = `{${eol}${
         Object.entries(properties)
           .map(([prop, value]) => {
             if (prop == '@media' || prop == '@keyframe' || prop == '@layer' || prop == '@support') {
               nested[nested.length] = `${prop} ${value}`;
               return false;
+            } else if (prop == '@pseudo' && (`${value}`).startsWith(':')) {
+              pseudo[pseudo.length] = `${value}`;
+              return false;
             } else return `${unCamelCase(prop)}:${value}`
           }).filter(Boolean).join(`;${eol}`)
       }${eol}}`
 
-      return nested.length ? nested.map((nest, index) => {
-        return index == (nested.length - 1) ? `${nest} {${eol}${compose}${eol}}` : `${nest}{${eol}`
-      }).join(`${eol}}`) : compose
+      if (!compose.trim().replace(/\n/g, '').replace(/{}/g, '').length) return '';
+
+      const withPseudo = pseudo.length
+        ? pseudo.map((ps, index) => {
+          return index == (pseudo.length - 1) ? `${eol}${BuilderKit.parseSelector(selector)}${ps} ${compose}${eol}` : `${ps}{${eol}`
+        }).join(`${eol}`)
+        : `${BuilderKit.parseSelector(selector)} ${compose}`
+
+      return nested.length
+        ? nested.map((nest, index) => {
+          return index == (nested.length - 1) ? `${nest} {${eol}${withPseudo}${eol}}` : `${nest}{${eol}`
+        }).join(`${eol}}`)
+        : `${withPseudo}`
     }
 
     return '';

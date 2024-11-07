@@ -21,11 +21,13 @@ export interface IRuleKit {
 
   readonly props: IRuleKitProps;
 
-  get query(): string;
+  get query(): string | undefined;
 
-  get alias(): string;
+  get alias(): string | undefined;
 
-  get ns(): string;
+  get deep(): string | undefined;
+
+  get ns(): string | undefined;
 
   value: IRuleKitTransformer;
 }
@@ -41,15 +43,20 @@ export interface IRuleKit {
 //   transform: IRuleKitTransformer
 // }
 
-export type IRuleKitProps = {
-  alias: string;
-  namespace?: string;
-  transform: IRuleKitTransformer
-} | {
-  alias?: string;
-  namespace: string;
-  transform: IRuleKitTransformer
+
+export type IRuleKitCommonProps = {
+  transform: IRuleKitTransformer;
 }
+
+export type IAliasRuleKitProps = {
+  alias: string;
+} & IRuleKitCommonProps;
+
+export type INamespaceRuleKitProps = {
+  namespace: string;
+} & IRuleKitCommonProps;
+
+export type IRuleKitProps = IAliasRuleKitProps | INamespaceRuleKitProps;
 
 export type IRuleKitSyntheticValues = IRuleKitDetails | IRuleKitComposed | undefined;
 
@@ -60,6 +67,7 @@ export type IRuleKitDetails = IRuleKitComposed & {
   '@keyframe'?: string;
   '@layer'?: string;
   '@support'?: string;
+  '@pseudo'?: string;
 }
 
 export type IRuleKitComposed = {
